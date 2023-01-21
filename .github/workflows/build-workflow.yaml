@@ -3,6 +3,11 @@ run-name: 🛠️ Running build for Android & iOS
 on:
   workflow_dispatch:
     inputs:
+      runTests:
+        description: "🧪 Run Tests Frist"
+        required: true
+        type: boolean
+        default: true
       androidBuild:
         description: "🤖 Build for Android"
         required: true
@@ -16,6 +21,7 @@ on:
 jobs:
   run-tests:
     name: 🧪 Run Tests
+    if: inputs.runTests
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
