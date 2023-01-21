@@ -3,11 +3,6 @@ run-name: 🛠️ Running build for Android & iOS
 on:
   workflow_dispatch:
     inputs:
-      runTests:
-        description: "🧪 Run Tests Frist"
-        required: true
-        type: boolean
-        default: true
       androidBuild:
         description: "🤖 Build for Android"
         required: true
@@ -41,7 +36,7 @@ jobs:
       - run: echo "🥳 Done!"
   android-build:
     name: 🤖 Android Build
-    if: inputs.androidBuild && success()
+    if: inputs.androidBuild
     runs-on: ubuntu-latest
     needs: run-tests
     steps:
@@ -70,7 +65,7 @@ jobs:
       - run: echo "🥳 Done!"
   ios-build:
     name: 🍎 iOS Build
-    if: inputs.iosBuild && success()
+    if: inputs.iosBuild
     runs-on: macos-latest
     needs: run-tests
     steps:
