@@ -1,5 +1,5 @@
-name: Build for Android
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Build Workflow
+run-name: 🛠️ Running build for Android & iOS
 on:
   push:
     branches:
@@ -32,4 +32,21 @@ jobs:
         run: flutter build apk
       - name: Build App Bundle
         run: flutter build appbundle
+      - run: echo "🥳 Done!"
+  iOS-Build:
+    runs-on: macos-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          architecture: x64
+      - run: flutter pub get
+      - name: Build for iOS
+        run: flutter build ios --release --no-codesign
       - run: echo "🥳 Done!"
