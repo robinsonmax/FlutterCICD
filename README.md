@@ -1,16 +1,11 @@
-# flutter_cicd_testing
+# Flutter CI/CD Testing
 
-A new Flutter project.
+Just a flutter project to test CI/CD to Android & iOS
 
-## Getting Started
+## Notes
 
-This project is a starting point for a Flutter application.
+A few resources to look at:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Flutter action](https://github.com/marketplace/actions/flutter-action) - GitHub Action for building flutter projects
+- [About GitHub runners](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners)
+- [GitHub actions billing](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions) - it appears MacOS now just cost's 10x a linux runner and can now use the free 2,000 Minutes per Month (equivilent to 200 Minues on MacOS)
