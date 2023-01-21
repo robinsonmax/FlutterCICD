@@ -1,22 +1,18 @@
 name: Build Workflow
 run-name: 🛠️ Running build for Android & iOS
 on:
-  push:
-    branches:
-      - "releases/**"
-  pull_request:
-    branches:
-      - "releases/**"
   workflow_dispatch:
     inputs:
       androidBuild:
         description: "🤖 Build for Android"
         required: true
         type: boolean
+        default: true
       iosBuild:
         description: "🍎 Build for iOS"
         required: true
         type: boolean
+        default: true
 jobs:
   run-tests:
     name: 🧪 Run Tests
@@ -25,17 +21,17 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      #      - name: Check out repository code
-      #        uses: actions/checkout@v3
-      #      - name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
-      #        uses: subosito/flutter-action@v2
-      #        with:
-      #          channel: "stable"
-      #      - name: Flutter Version 🚦
-      #        run: flutter --version
-      #      - run: flutter pub get
-      #      - name: Run Tests ✅
-      #        run: flutter test
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Flutter Version 🚦
+        run: flutter --version
+      - run: flutter pub get
+      - name: Run Tests ✅
+        run: flutter test
       - run: echo "🥳 Done!"
   android-build:
     name: 🤖 Android Build
@@ -66,23 +62,24 @@ jobs:
       - name: 🛠️ Build App Bundle
         run: flutter build appbundle
       - run: echo "🥳 Done!"
-#  ios-build:
-#    name: 🍎 iOS Build
-#    runs-on: macos-latest
-#    needs: run-tests
-#    steps:
-#      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-#      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-#      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-#      - name: 🔁 Check out repository code
-#        uses: actions/checkout@v3
-#      - name: 🔁 Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
-#        uses: subosito/flutter-action@v2
-#        with:
-#          channel: "stable"
-#          architecture: x64
-#      - name: 💿 Get Flutter Dependencies
-#        run: flutter pub get
-#      - name: 🛠️ Build for iOS
-#        run: flutter build ios --release --no-codesign
-#      - run: echo "🥳 Done!"
+  ios-build:
+    name: 🍎 iOS Build
+    if: inputs.iosBuild
+    runs-on: macos-latest
+    needs: run-tests
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: 🔁 Check out repository code
+        uses: actions/checkout@v3
+      - name: 🔁 Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          architecture: x64
+      - name: 💿 Get Flutter Dependencies
+        run: flutter pub get
+      - name: 🛠️ Build for iOS
+        run: flutter build ios --release --no-codesign
+      - run: echo "🥳 Done!"
