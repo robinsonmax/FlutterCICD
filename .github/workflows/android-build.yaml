@@ -20,7 +20,7 @@ jobs:
           distribution: "zulu"
           java-version: "11"
       - name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
-      - uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2
         with:
           channel: "stable"
       - name: Flutter Version 🚦
