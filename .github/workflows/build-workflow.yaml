@@ -33,6 +33,15 @@ jobs:
       - run: flutter pub get
       - name: Run Tests ✅
         run: flutter test
+
+      - name: Commit build to repo
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: "🤖 Android Build"
+          add: "*.apk"
+
       - run: echo "🥳 Done!"
   android-build:
     name: 🤖 Android Build
