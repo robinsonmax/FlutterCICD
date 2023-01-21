@@ -32,18 +32,6 @@ jobs:
       - run: flutter pub get
       - name: Run Tests ✅
         run: flutter test
-
-      - name: Move build files
-        run: mv ~/build/app/outputs/flutter-apk/* ~/automated-build/android/
-
-      - name: Commit build to repo
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: GitHub Actions
-          author_email: actions@github.com
-          message: "🤖 Android Build"
-          add: "*.apk"
-
       - run: echo "🥳 Done!"
   android-build:
     name: 🤖 Android Build
@@ -73,6 +61,18 @@ jobs:
         run: flutter build apk
       - name: 🛠️ Build App Bundle
         run: flutter build appbundle
+
+      - name: Move build files
+        run: mv ~/build/app/outputs/flutter-apk/* ~/builds/android/
+
+      - name: Commit build to repo
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: "🤖 Android Build"
+          add: "*.apk"
+
       - run: echo "🥳 Done!"
   ios-build:
     name: 🍎 iOS Build
