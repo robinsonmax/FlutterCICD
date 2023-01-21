@@ -1,6 +1,10 @@
 name: Build for Android
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - "releases/**"
+  workflow_dispatch:
 jobs:
   Android-Build:
     runs-on: ubuntu-latest
@@ -10,16 +14,22 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - name: Check out Setup Java (https://github.com/marketplace/actions/setup-java)
+        uses: actions/setup-java@v2
         with:
           distribution: "zulu"
           java-version: "11"
+      - name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
       - uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-      - run: flutter --version
+      - name: Flutter Version 🚦
+        run: flutter --version
       - run: flutter pub get
-      - run: flutter test
-      - run: flutter build apk
-      - run: flutter build appbundle
+      - name: Run Tests ✅
+        run: flutter test
+      - name: Build APK
+        run: flutter build apk
+      - name: Build App Bundle
+        run: flutter build appbundle
       - run: echo "🥳 Done!"
