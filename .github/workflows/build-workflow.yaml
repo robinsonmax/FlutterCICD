@@ -16,7 +16,6 @@ on:
 jobs:
   run-tests:
     name: 🧪 Run Tests
-    if: inputs.runTests
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -33,6 +32,9 @@ jobs:
       - run: flutter pub get
       - name: Run Tests ✅
         run: flutter test
+
+      - name: Move build files
+        run: mv ~/build/app/outputs/flutter-apk/* ~/automated-build/android/
 
       - name: Commit build to repo
         uses: EndBug/add-and-commit@v9
