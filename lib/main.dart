@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_cicd_testing/pages/loading_page.dart';
+import 'package:flutter_cicd_testing/routers/auth_router.dart';
 
-import 'errorPage.dart';
-import 'homePage.dart';
+import 'pages/error_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +32,9 @@ class MyApp extends StatelessWidget {
               details: snapshot.error.toString(),
             );
           } else if (snapshot.hasData) {
-            return const MyHomePage(title: 'Flutter Demo');
+            return const AuthRouter();
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const LoadingPage();
           }
         },
       ),
