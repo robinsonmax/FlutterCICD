@@ -72,7 +72,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "🤖 Updated Android Build" -a
+          git add "builds/android/*"
+          git commit -m "🤖 Updated Android Build"
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
@@ -110,6 +111,6 @@ jobs:
         run: flutter build ios --release --no-codesign
 
       - name: Move build files
-        run: mv build/app/outputs/flutter-apk/* builds/ios/
+        run: mv /Users/runner/work/FlutterCICD/build/ios/iphoneos/* builds/ios/
 
       - run: echo "🥳 Done!"
