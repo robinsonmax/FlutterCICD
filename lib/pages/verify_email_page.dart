@@ -1,4 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../auth.dart';
@@ -13,8 +14,22 @@ class VerifyEmailPage extends StatefulWidget {
 class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   void initState() {
-    Auth().currentUser?.sendEmailVerification();
+    // As non of the auth streams subscribe to the user.emailVerified changing,
+    // I'm just making it reload the user every 5 secs to check 🤮
+    Timer.periodic(const Duration(seconds: 5), (timer) async {
+      await Auth().reloadUser();
+      if (Auth().currentUser!.emailVerified) {
+        timer.cancel();
+      }
+    });
+
     super.initState();
+  }
+
+  resendVerification() {
+    Auth().currentUser?.sendEmailVerification();
+    const snackBar = SnackBar(content: Text('Email Sent'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -31,12 +46,19 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Please tap the link the email we\'ve just sent you.'),
+            const Text(
+                'Please tap the link in the email we\'ve just sent you.'),
+            const Text('Didn\'t get the email?.'),
+            ElevatedButton(
+              onPressed: resendVerification,
+              child: const Text('Resend Email'),
+            ),
             TextButton(
-                onPressed: () {
-                  Auth().signOut();
-                },
-                child: const Text('Sign Out')),
+              onPressed: () {
+                Auth().signOut();
+              },
+              child: const Text('Sign Out'),
+            ),
           ],
         ),
       ),

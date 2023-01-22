@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await Auth().createUserWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);
+      await Auth().currentUser?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -39,10 +40,12 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Widget _entryField(String title, TextEditingController controller) {
+  Widget _entryField(
+      String title, TextEditingController controller, bool obscureText) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(labelText: title),
+      obscureText: obscureText,
     );
   }
 
@@ -83,8 +86,8 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _entryField('email', _controllerEmail),
-            _entryField('password', _controllerPassword),
+            _entryField('Email', _controllerEmail, false),
+            _entryField('Password', _controllerPassword, true),
             _errorMessage(),
             _submitButton(),
             _loginOrRegisterButton(),

@@ -25,14 +25,14 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter++;
-
-      final user = <String, int>{"count": _counter};
-
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(_currentUserEmail)
-          .set(user);
     });
+
+    final user = <String, int>{"count": _counter};
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(_currentUserEmail)
+        .set(user);
   }
 
   @override
