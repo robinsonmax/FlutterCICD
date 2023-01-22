@@ -43,6 +43,7 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
       - name: 🔁 Check out repository code
         uses: actions/checkout@v3
       - name: 🔁 Check out Setup Java (https://github.com/marketplace/actions/setup-java)
@@ -54,6 +55,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+
       - name: 🚦 Flutter Version
         run: flutter --version
       - name: 💿 Get Flutter Dependencies
@@ -66,12 +68,22 @@ jobs:
       - name: Move build files
         run: mv build/app/outputs/flutter-apk/* builds/android/
 
-      - name: Commit build files to repo
-        uses: EndBug/add-and-commit@v9
+      - name: Commit build files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "🤖 Updated Android Build" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          default_author: github_actions
-          message: "🤖 Android Build"
-          add: "builds/android/*"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      #- name: Commit build files to repo
+      #  uses: EndBug/add-and-commit@v9
+      #  with:
+      #    default_author: github_actions
+      #    message: "🤖 Updated Android Build"
+      #    add: "builds/android/*"
 
       - run: echo "🥳 Done!"
   ios-build:
@@ -83,6 +95,7 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
       - name: 🔁 Check out repository code
         uses: actions/checkout@v3
       - name: 🔁 Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
@@ -90,8 +103,13 @@ jobs:
         with:
           channel: "stable"
           architecture: x64
+
       - name: 💿 Get Flutter Dependencies
         run: flutter pub get
       - name: 🛠️ Build for iOS
         run: flutter build ios --release --no-codesign
+
+      - name: Move build files
+        run: mv build/app/outputs/flutter-apk/* builds/ios/
+
       - run: echo "🥳 Done!"
