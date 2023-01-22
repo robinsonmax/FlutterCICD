@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../auth.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -12,16 +14,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String? _currentUserEmail;
+
+  @override
+  void initState() {
+    _currentUserEmail = Auth().currentUser?.email;
+    super.initState();
+  }
 
   void _incrementCounter() {
     setState(() {
       _counter++;
 
-      final user = <String, dynamic>{"name": "Max", "count": _counter};
+      final user = <String, int>{"count": _counter};
 
       FirebaseFirestore.instance
           .collection('users')
-          .doc('robinsonmax17@gmail.com')
+          .doc(_currentUserEmail)
           .set(user);
     });
   }
@@ -40,6 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Auth().signOut();
+              },
+              child: const Text('Sign Out'),
             ),
           ],
         ),
