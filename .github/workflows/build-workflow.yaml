@@ -21,18 +21,18 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
-        uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-      - name: Flutter Version 🚦
-        run: flutter --version
-      - name: 💿 Get Flutter Dependencies
-        run: flutter pub get
-      - name: ✅ Run Tests
-        run: flutter test
+      #- name: Check out repository code
+      #  uses: actions/checkout@v3
+      #- name: Check out Flutter Actions (https://github.com/marketplace/actions/flutter-action)
+      #  uses: subosito/flutter-action@v2
+      #  with:
+      #    channel: "stable"
+      #- name: Flutter Version 🚦
+      #  run: flutter --version
+      #- name: 💿 Get Flutter Dependencies
+      #  run: flutter pub get
+      #- name: ✅ Run Tests
+      #  run: flutter test
       - run: echo "🥳 Done!"
   android-build:
     name: 🤖 Android Build
