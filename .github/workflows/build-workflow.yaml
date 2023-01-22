@@ -12,7 +12,7 @@ on:
         description: "🍎 Build for iOS"
         required: true
         type: boolean
-        default: true
+        default: false
 jobs:
   run-tests:
     name: 🧪 Run Tests
@@ -103,8 +103,9 @@ jobs:
       - name: 🛠️ Build for iOS
         run: flutter build ios --release --no-codesign
 
+      # TODO: check this is the right folder
       - name: Move build files
-        run: mv /Users/runner/work/FlutterCICD/build/ios/iphoneos/* /Users/runner/work/FlutterCICD/builds/ios/
+        run: mv build/ios/iphoneos/* builds/ios/
 
       - name: Commit build files
         run: |
